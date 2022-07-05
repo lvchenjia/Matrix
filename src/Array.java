@@ -1,7 +1,6 @@
 import java.util.Arrays;
 
 public class Array {
-    Arrays
     public static void main(String[] args) throws Exception {
 //        double[] arr = {2, 5, 46, 7, 4, 5, 7, 5};
 //        Vector v1 = new Vector(new double[]{1, 2, 2});
