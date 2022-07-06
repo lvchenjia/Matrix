@@ -12,11 +12,12 @@ public class Matrix {
 
     /**
      * 构造m×n元素全相同的矩阵
+     *
      * @param m 行
      * @param n 列
      * @param k 元素k
      */
-    Matrix(int m, int n, int k){
+    Matrix(int m, int n, int k) {
         matrix = new double[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
@@ -29,10 +30,11 @@ public class Matrix {
 
     /**
      * 构造m×n零矩阵
+     *
      * @param m 行
      * @param n 列
      */
-    Matrix(int m, int n){
+    Matrix(int m, int n) {
         matrix = new double[m][n];
         row = m;
         col = n;
@@ -51,7 +53,7 @@ public class Matrix {
     }
 
     public int getSize() {
-        return row*col;
+        return row * col;
     }
 
     public Vector getRow(int i) {
@@ -105,37 +107,37 @@ public class Matrix {
     /**
      * 化为行阶梯型(Row Echelon Form)
      */
-    public void REF(){
+    public void REF() {
         int nr = getHeight();
         int nc = getWidth();
         for (int r = 0; r < nr; r++) {
             boolean allZeros = true;
             for (int c = 0; c < nc; c++) {
-                if(matrix[r][c] !=0 ){
+                if (matrix[r][c] != 0) {
                     allZeros = false;
                     break;
                 }
             }
-            if(allZeros){
+            if (allZeros) {
                 rowExchange(r, nr);
                 nr--;
             }
         }
         int p = 0;
-        while(p<nr&&p<nc){
+        while (p < nr && p < nc) {
             int r = 1;
-            while(matrix[p][p]==0){
-                if(p+r<=nr){
+            while (matrix[p][p] == 0) {
+                if (p + r <= nr) {
                     p++;
                     continue;
                 }
                 r++;
             }
-            for (r = 1; r < nr-p; r++) {
-                if(matrix[p+r][p]!=0){
-                    double x = -1*(matrix[p+r][p]/matrix[p][p]);
+            for (r = 1; r < nr - p; r++) {
+                if (matrix[p + r][p] != 0) {
+                    double x = -1 * (matrix[p + r][p] / matrix[p][p]);
                     for (int c = p; c < nc; c++) {
-                        matrix[p+r][c] = matrix[p][c]*x + matrix[p+r][c];
+                        matrix[p + r][c] = matrix[p][c] * x + matrix[p + r][c];
                     }
                 }
             }
@@ -196,8 +198,8 @@ public class Matrix {
     /**
      * 矩阵乘法
      */
-    public Matrix multiply(Matrix m1, Matrix m2) throws Exception {
-        if (m1.getWidth()!=m2.getHeight()) throw new Exception("两矩阵不可相乘!");
+    public static Matrix multiply(Matrix m1, Matrix m2) throws Exception {
+        if (m1.getWidth() != m2.getHeight()) throw new Exception("两矩阵不可相乘!");
         double[][] m = new double[m1.getHeight()][m2.getWidth()];
         for (int i = 0; i < m1.getHeight(); i++) {
             for (int j = 0; j < m2.getWidth(); j++) {
@@ -237,14 +239,14 @@ public class Matrix {
      * 余子式
      */
     public Matrix minor(int i, int j) throws Exception {
-        double[][] m = new double[row-1][col-1];
+        double[][] m = new double[row - 1][col - 1];
         for (int k = 0; k < row; k++) {
-            if(k==i)continue;
+            if (k == i) continue;
             for (int l = 0; l < col; l++) {
-                if(l==j)continue;
+                if (l == j) continue;
                 int x = k, y = l;
-                if(x>i)x--;
-                if(y>j)y--;
+                if (x > i) x--;
+                if (y > j) y--;
                 m[x][y] = matrix[k][l];
             }
         }
@@ -255,16 +257,16 @@ public class Matrix {
      * 代数余子式
      */
     public Matrix complementMinor(int i, int j) throws Exception {
-        if((i+j)%2==0){
+        if ((i + j) % 2 == 0) {
             return minor(i, j);
-        }else{
-            Matrix m =minor(i, j);
-            if(m.getHeight()>0)m.rowMultiply(0, -1);
+        } else {
+            Matrix m = minor(i, j);
+            if (m.getHeight() > 0) m.rowMultiply(0, -1);
             return m;
         }
     }
 
-    public Matrix copy(){
+    public Matrix copy() {
         double[][] newmat = new double[row][col];
         for (int i = 0; i < row; i++) {
             if (col >= 0) System.arraycopy(matrix[i], 0, newmat[i], 0, col);
@@ -272,46 +274,46 @@ public class Matrix {
         return new Matrix(newmat);
     }
 
-    public void print(int n){
-        System.out.println(toString2(n));
+    public void print(int n) {
+        System.out.println(toStringAccurate(n));
     }
 
-    public void print(){
+    public void print() {
         print(2);
     }
 
-    public void matFormPrint(){
+    public void matFormPrint() {
         matFormPrint(8, 2);
     }
 
-    public void matFormPrint(int colWidth, int decimal){
-        if(row==1){
+    public void matFormPrint(int colWidth, int decimal) {
+        if (row == 1) {
             System.out.print("[");
             for (int j = 0; j < col; j++) {
-                System.out.printf("%-"+colWidth+"."+decimal+"f", matrix[0][j]);
+                System.out.printf("%-" + colWidth + "." + decimal + "f", matrix[0][j]);
             }
-            System.out.print("]");
+            System.out.println("]");
             return;
         }
 
         for (int i = 0; i < row; i++) {
-            if(i==0){
+            if (i == 0) {
                 System.out.print("┌ ");
-            }else if(i==row-1){
+            } else if (i == row - 1) {
                 System.out.print("└ ");
-            }else{
+            } else {
                 System.out.print("│ ");
             }
 
             for (int j = 0; j < col; j++) {
-                System.out.printf("%-"+colWidth+"."+decimal+"f", matrix[i][j]);
+                System.out.printf("%-" + colWidth + "." + decimal + "f", matrix[i][j]);
             }
 
-            if(i==0){
+            if (i == 0) {
                 System.out.print("┐");
-            }else if(i==row-1){
+            } else if (i == row - 1) {
                 System.out.print("┘");
-            }else{
+            } else {
                 System.out.print("│");
             }
             System.out.println();
@@ -319,13 +321,14 @@ public class Matrix {
     }
 
 
-    public String toString2(int decimal) {
+    public String toStringAccurate(int decimal) {
         StringBuilder rst = new StringBuilder("[");
         for (int i = 0; i < matrix.length; i++) {
             if (i != 0) rst.append(" ");
             for (int j = 0; j < matrix[i].length; j++) {
-                if(j!=matrix[i].length-1) rst.append(String.format("%." + decimal + "f", matrix[i][j])).append("\t");
-                else rst.append(String.format("%."+decimal+"f",matrix[i][j]));
+                if (j != matrix[i].length - 1)
+                    rst.append(String.format("%." + decimal + "f", matrix[i][j])).append("\t");
+                else rst.append(String.format("%." + decimal + "f", matrix[i][j]));
             }
             if (i != matrix.length - 1) rst.append("\n");
         }
@@ -340,8 +343,8 @@ public class Matrix {
             if (i != 0) rst.append(" ");
             rst.append("{");
             for (int j = 0; j < matrix[i].length; j++) {
-                if(j!=matrix[i].length-1) rst.append(String.format("%.3f", matrix[i][j])).append(", ");
-                else rst.append(String.format("%.3f",matrix[i][j]));
+                if (j != matrix[i].length - 1) rst.append(String.format("%.3f", matrix[i][j])).append(", ");
+                else rst.append(String.format("%.3f", matrix[i][j]));
             }
             rst.append("}");
             if (i != matrix.length - 1) rst.append(",\n");

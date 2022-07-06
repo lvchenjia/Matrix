@@ -55,6 +55,10 @@ public class Vector {
         return sqrt(rst);
     }
 
+    public Vector copy() {
+        return new Vector(Arrays.copyOf(vector, vector.length));
+    }
+
     @Override
     public String toString() {
         return Arrays.toString(vector);
