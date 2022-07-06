@@ -32,13 +32,15 @@ public class Array {
         //mat1.REF();
         //System.out.println(mat1);
         System.out.println(mat1.withMatrix());
-        System.out.println(mat1.inverse());
+        System.out.println(mat1.inv());
 //        SquareMatrix mat2 = new SquareMatrix(new double[][]{{0.0, -3.0, -2.0, -9.0},
 //                {0.0, 0.0, -1.8, -13.0},
 //                {0.0, 0.0, 0.0, 2.5},
 //                {0.0, 0.0, 0.0, 0.0}});
 //        System.out.println(mat2.det());
-        System.out.println(mat1.multiply(mat1, mat1.inverse()));
+        System.out.println(mat1.multiply(mat1, mat1.inv()));
+        Matrix m1 = new SquareMatrix(new double[][]{{0}}).transpose();
+        System.out.println(m1);
 
     }
 }

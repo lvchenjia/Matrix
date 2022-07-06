@@ -3,6 +3,8 @@ public class Matrix {
     protected int row;
     protected int col;
 
+    Matrix(){}
+
     Matrix(double[][] matrix) {
         this.matrix = matrix;
         row = matrix.length;
@@ -96,11 +98,10 @@ public class Matrix {
         int p = 0;
         while(p<nr&&p<nc){
             int r = 1;
-            nextPivot:
             while(matrix[p][p]==0){
                 if(p+r<=nr){
                     p++;
-                    continue nextPivot;
+                    continue;
                 }
                 r++;
             }
@@ -153,8 +154,8 @@ public class Matrix {
     /**
      * 矩阵加法
      */
-    public Matrix add(Matrix m1, Matrix m2) {
-        if (!isHomomorphic(m1, m2)) return null;
+    public Matrix add(Matrix m1, Matrix m2) throws Exception {
+        if (!isHomomorphic(m1, m2)) throw new Exception("非同型矩阵不可相加!");
         int row = m1.getHeight();
         int col = m1.getWidth();
         double[][] m = new double[row][col];
@@ -169,8 +170,8 @@ public class Matrix {
     /**
      * 矩阵乘法
      */
-    public Matrix multiply(Matrix m1, Matrix m2) {
-        if (m1.getWidth()!=m2.getHeight()) return null;
+    public Matrix multiply(Matrix m1, Matrix m2) throws Exception {
+        if (m1.getWidth()!=m2.getHeight()) throw new Exception("两矩阵不可相乘!");
         double[][] m = new double[m1.getHeight()][m2.getWidth()];
         for (int i = 0; i < m1.getHeight(); i++) {
             for (int j = 0; j < m2.getWidth(); j++) {

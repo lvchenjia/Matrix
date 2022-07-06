@@ -4,9 +4,15 @@ public class SquareMatrix extends Matrix{
     SquareMatrix(double[][] matrix) throws Exception {
         super(matrix);
         if(matrix.length!=0){
-            if(matrix.length!=matrix[0].length)throw new Exception();
+            if(matrix.length!=matrix[0].length)throw new Exception("矩阵不为方阵！");
         }
         n = matrix.length;
+    }
+
+    SquareMatrix(Matrix matrix)throws Exception{
+        super(matrix.matrix);
+        if(matrix.getWidth()!=matrix.getHeight())throw new Exception("矩阵不为方阵！");
+        n = matrix.getHeight();
     }
 
     /**
@@ -77,7 +83,6 @@ public class SquareMatrix extends Matrix{
         double[][] m = new double[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                //System.out.println(complementMinor(i, j));
                 m[i][j] = complementMinor(i, j).det();
             }
         }
@@ -87,10 +92,17 @@ public class SquareMatrix extends Matrix{
     /**
      * 求逆矩阵
      */
-    public Matrix inverse() throws Exception {
+    public Matrix inv() throws Exception {
         if(det()==0)throw new Exception("矩阵不可逆！");
         Matrix m = withMatrix();
         m.mulNum(1/det());
         return m;
+    }
+
+    /**
+     *  求特征值
+     */
+    public Matrix eig(SquareMatrix matrix){
+        return MatrixEigenValue.EigenValue(matrix);
     }
 }
