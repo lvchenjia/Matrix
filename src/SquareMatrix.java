@@ -16,6 +16,32 @@ public class SquareMatrix extends Matrix{
     }
 
     /**
+     * 构造n阶单位矩阵
+     * @param n 阶
+     */
+    SquareMatrix(int n){
+        super(n,n);
+        for (int i = 0; i < n; i++) {
+            matrix[i][i] = 1;
+        }
+        this.n = n;
+    }
+
+    /**
+     * 构造n阶纯量矩阵
+     * @param n 阶
+     * @param k 量
+     */
+    SquareMatrix(int n, int k){
+        super(n,n);
+        for (int i = 0; i < n; i++) {
+            matrix[i][i] = k;
+        }
+        this.n = n;
+    }
+
+
+    /**
      * 矩阵的迹(Trace)
      */
     public double trace(){
@@ -37,10 +63,10 @@ public class SquareMatrix extends Matrix{
         }
         if(rst==0)return 0;
         rst = 1;
-        Matrix tmp = this.copy();
+        Matrix tmp = copy();
         tmp.REF();
         for (int i = 0; i < n; i++) {
-            rst *= at(i, i);
+            rst *= tmp.at(i, i);
         }
         return rst;
     }
@@ -79,24 +105,24 @@ public class SquareMatrix extends Matrix{
     /**
      * 求伴随矩阵
      */
-    public Matrix withMatrix() throws Exception {
+    public SquareMatrix withMatrix() throws Exception {
         double[][] m = new double[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 m[i][j] = complementMinor(i, j).det();
             }
         }
-        return new Matrix(m).transpose();
+        return new SquareMatrix(new Matrix(m).transpose());
     }
 
     /**
      * 求逆矩阵
      */
-    public Matrix inv() throws Exception {
+    public SquareMatrix inv() throws Exception {
         if(det()==0)throw new Exception("矩阵不可逆！");
         Matrix m = withMatrix();
         m.mulNum(1/det());
-        return m;
+        return new SquareMatrix(m);
     }
 
     /**
@@ -104,5 +130,26 @@ public class SquareMatrix extends Matrix{
      */
     public Matrix eig(SquareMatrix matrix){
         return MatrixEigenValue.EigenValue(matrix);
+    }
+
+    /**
+     * 方阵的n次方
+     */
+    public SquareMatrix power(int n){
+        if(n==0)return new SquareMatrix(this.n);
+        Matrix rst = new Matrix(this.matrix);
+        for (int i = 1; i < n; i++) {
+            try {
+                rst = rst.multiply(rst,this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            return new SquareMatrix(rst);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -1,4 +1,3 @@
-import java.util.Arrays;
 
 public class Array {
     public static void main(String[] args) throws Exception {
@@ -25,22 +24,15 @@ public class Array {
         mat.RREF();
         System.out.println(mat);
 
-        //SquareMatrix mat1 = new SquareMatrix(new double[][]{{2,2,3},{2,-1,1},{3,0,-1}});
-        SquareMatrix mat1 = new SquareMatrix(new double[][]{{2,-2,-3,-4,7},{-2,-1,1,-5,7},{3,5,-1,5,7},{-1,1,1,1,7},{-1,2,4,1,-7}});
+        SquareMatrix mat1 = new SquareMatrix(new double[][]{{2,2,3},{2,-1,1},{3,0,-1}});
+        //SquareMatrix mat1 = new SquareMatrix(new double[][]{{2,-2,-3,-4,7},{-2,-1,1,-5,7},{3,5,-1,5,7},{-1,1,1,1,7},{-1,2,4,1,-7}});
         System.out.println(mat1);
         System.out.println(mat1.det());
-        //mat1.REF();
-        //System.out.println(mat1);
-        System.out.println(mat1.withMatrix());
-        System.out.println(mat1.inv());
-//        SquareMatrix mat2 = new SquareMatrix(new double[][]{{0.0, -3.0, -2.0, -9.0},
-//                {0.0, 0.0, -1.8, -13.0},
-//                {0.0, 0.0, 0.0, 2.5},
-//                {0.0, 0.0, 0.0, 0.0}});
-//        System.out.println(mat2.det());
-        System.out.println(mat1.multiply(mat1, mat1.inv()));
-        Matrix m1 = new SquareMatrix(new double[][]{{0}}).transpose();
-        System.out.println(m1);
+        System.out.println(mat1);
+        mat1.print();
+        mat1.inv().power(10).matFormPrint();
+        mat1.withMatrix().matFormPrint();
+        System.out.println(mat1.withMatrix().det());
 
     }
 }

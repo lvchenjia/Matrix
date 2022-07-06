@@ -3,13 +3,39 @@ public class Matrix {
     protected int row;
     protected int col;
 
-    Matrix(){}
-
     Matrix(double[][] matrix) {
         this.matrix = matrix;
         row = matrix.length;
         if (matrix.length == 0) col = 0;
         else col = matrix[0].length;
+    }
+
+    /**
+     * 构造m×n元素全相同的矩阵
+     * @param m 行
+     * @param n 列
+     * @param k 元素k
+     */
+    Matrix(int m, int n, int k){
+        matrix = new double[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = k;
+            }
+        }
+        row = m;
+        col = n;
+    }
+
+    /**
+     * 构造m×n零矩阵
+     * @param m 行
+     * @param n 列
+     */
+    Matrix(int m, int n){
+        matrix = new double[m][n];
+        row = m;
+        col = n;
     }
 
     public double[][] getMatrix() {
@@ -239,7 +265,72 @@ public class Matrix {
     }
 
     public Matrix copy(){
-        return new Matrix(this.matrix);
+        double[][] newmat = new double[row][col];
+        for (int i = 0; i < row; i++) {
+            if (col >= 0) System.arraycopy(matrix[i], 0, newmat[i], 0, col);
+        }
+        return new Matrix(newmat);
+    }
+
+    public void print(int n){
+        System.out.println(toString2(n));
+    }
+
+    public void print(){
+        print(2);
+    }
+
+    public void matFormPrint(){
+        matFormPrint(8, 2);
+    }
+
+    public void matFormPrint(int colWidth, int decimal){
+        if(row==1){
+            System.out.print("[");
+            for (int j = 0; j < col; j++) {
+                System.out.printf("%-"+colWidth+"."+decimal+"f", matrix[0][j]);
+            }
+            System.out.print("]");
+            return;
+        }
+
+        for (int i = 0; i < row; i++) {
+            if(i==0){
+                System.out.print("┌ ");
+            }else if(i==row-1){
+                System.out.print("└ ");
+            }else{
+                System.out.print("│ ");
+            }
+
+            for (int j = 0; j < col; j++) {
+                System.out.printf("%-"+colWidth+"."+decimal+"f", matrix[i][j]);
+            }
+
+            if(i==0){
+                System.out.print("┐");
+            }else if(i==row-1){
+                System.out.print("┘");
+            }else{
+                System.out.print("│");
+            }
+            System.out.println();
+        }
+    }
+
+
+    public String toString2(int decimal) {
+        StringBuilder rst = new StringBuilder("[");
+        for (int i = 0; i < matrix.length; i++) {
+            if (i != 0) rst.append(" ");
+            for (int j = 0; j < matrix[i].length; j++) {
+                if(j!=matrix[i].length-1) rst.append(String.format("%." + decimal + "f", matrix[i][j])).append("\t");
+                else rst.append(String.format("%."+decimal+"f",matrix[i][j]));
+            }
+            if (i != matrix.length - 1) rst.append("\n");
+        }
+        rst.append("]");
+        return rst.toString();
     }
 
     @Override
@@ -249,7 +340,7 @@ public class Matrix {
             if (i != 0) rst.append(" ");
             rst.append("{");
             for (int j = 0; j < matrix[i].length; j++) {
-                if(j!=matrix[i].length-1)rst.append(String.format("%.3f",matrix[i][j])+", ");
+                if(j!=matrix[i].length-1) rst.append(String.format("%.3f", matrix[i][j])).append(", ");
                 else rst.append(String.format("%.3f",matrix[i][j]));
             }
             rst.append("}");
