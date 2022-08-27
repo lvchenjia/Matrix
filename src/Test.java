@@ -22,7 +22,9 @@ public class Test {
         System.out.println("×");
         mat1.matFormPrint();
         System.out.println("=");
+
         Matrix.multiply(mat1, mat1).matFormPrint();
+        System.out.println(mat1);
     }
 }
 
